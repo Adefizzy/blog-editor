@@ -1,5 +1,6 @@
 import { ContentBlock, ContentState } from "draft-js";
-import { YoutubeVideo, VimeoVideo } from "./YoutubeVideo";
+import  YoutubeVideo  from "./YoutubeVideo";
+import VimeoVideo from './VimeoVideo';
 import ImageRenderer from "./ImageRenderer";
 
 type Props = {
