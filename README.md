@@ -19,4 +19,6 @@ Sample media links
 - https://www.youtube.com/embed/PDdZB83_Nrs for youtube
 - https://player.vimeo.com/video/524933864?h=1ac4fd9fb4&byline=0&portrait=0 for vimeo
 
-Submitted by : ADENIJI ADEFISAYO, adefizzy045@yahoo.com, 08182369868
+## Submitted by : ADENIJI ADEFISAYO, adefizzy045@yahoo.com, 08182369868
+
+You can view the demo here https://storied-llama-fb60b1.netlify.app/
