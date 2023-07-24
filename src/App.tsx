@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useCallback } from "react";
 import theme from "./theme";
 import {
   ChakraProvider,
@@ -7,14 +7,13 @@ import {
   GridItem,
   Center,
   Divider,
-  Heading,
   Flex,
   Button,
   Text,
   useDisclosure,
+  Input,
 } from "@chakra-ui/react";
 import ImageModal from "./components/ImageModal";
-
 
 import {
   Editor,
@@ -28,17 +27,21 @@ import {
 import "draft-js/dist/Draft.css";
 import LinkModal from "./components/LinkModal";
 import { alignments, boldItalic, linkImage, listIndent } from "./utils/helpers";
-import findLinkEntities from "./utils/URLLinkStrategy";
+import { findLinkEntities } from "./utils/URLLinkStrategy";
 import URLLink from "./components/URLLinkComponent";
 import getTotalWords from "./utils/getTotalWords";
 import handleStyleFormating from "./utils/handleStyleFormating";
 import TextFormatingIcon from "./components/TextFormatingButton";
 import useBlockRenderer from "./utils/useBlockRenderer";
-import useInsertImage from "./utils/useInsertImage";
+import useInsertMedia from "./utils/useInsertMedia";
 import useInsertLink from "./utils/useInsertLink";
 import FormattingBar from "./components/FormattingBar";
+import { EmbedButtons } from "./components/EmbedButtons";
+import VideoModal from "./components/VideoModal";
+
 
 export function App() {
+
   const {
     onClose: onCloseImageUpload,
     onOpen: onOpenImageUpload,
@@ -49,6 +52,12 @@ export function App() {
     onClose: onCloseLinkModal,
     onOpen: onOpenLinkModal,
     isOpen: isOpenLinkModal,
+  } = useDisclosure();
+
+  const {
+    onClose: onCloseVideoModal,
+    onOpen: onOpenVideoModal,
+    isOpen: isOpenVideoModal,
   } = useDisclosure();
 
   const decorator = new CompositeDecorator([
@@ -188,17 +197,17 @@ export function App() {
 
   const setDomEditorRef = (ref: any) => (editorRef = ref);
 
-  const insertImage = useInsertImage(
+  const insertImage = useInsertMedia(
     editorState,
     setEditorState,
     onCloseImageUpload
   );
 
-  useEffect(() => {
-    setTimeout(() => {
-      focus();
-    }, 0);
-  }, [editorState, focus]);
+  const insertVideo = useInsertMedia(
+    editorState,
+    setEditorState,
+    onCloseVideoModal
+  );
 
   const insertLink = useInsertLink(
     editorState,
@@ -208,6 +217,15 @@ export function App() {
 
   const myBlockRenderer = useBlockRenderer();
 
+  const handleContentEmbed = (type: string) => {
+    if (type === "Picture") {
+      onOpenImageUpload();
+    }
+
+    if (type === "Video") {
+      onOpenVideoModal();
+    }
+  };
   return (
     <ChakraProvider theme={theme}>
       <Grid templateColumns="repeat(5, 1fr)">
@@ -216,7 +234,7 @@ export function App() {
             <Box
               display="flex"
               width={{ base: "90%", lg: "50%" }}
-              border="1px solid #E2E8F0"
+              border="1px solid #FAFAFA"
               minH="80vh"
               borderRadius="sm"
               justifyContent="space-between"
@@ -225,15 +243,27 @@ export function App() {
               <Box>
                 <Divider mt={10} />
                 <Box p={4}>
-                  <Heading size="md" as="h1">
-                    This is the title
-                  </Heading>
-                  <FormattingBar
-                    linkImageList={linkImageList}
-                    aligns={aligns}
-                    boldItalicList={boldItalicList}
-                    listIndentList={listIndentList}
+                  <Input
+                    bgColor="transparent"
+                    border="none"
+                    placeholder="Add post title"
+                    fontSize="2xl"
+                    fontWeight="bold"
+                    px={0}
                   />
+                  <Box
+                    zIndex={1000}
+                    display={
+                      getTotalWords(editorState) === 0 ? "none" : "block"
+                    }
+                  >
+                    <FormattingBar
+                      linkImageList={linkImageList}
+                      aligns={aligns}
+                      boldItalicList={boldItalicList}
+                      listIndentList={listIndentList}
+                    />
+                  </Box>
                   <Box>
                     <Editor
                       placeholder="Add content"
@@ -245,6 +275,9 @@ export function App() {
                       customStyleMap={styleMap}
                       blockRendererFn={myBlockRenderer}
                     />
+                    {Boolean(getTotalWords(editorState)) && (
+                      <EmbedButtons onEmbed={handleContentEmbed} />
+                    )}
                   </Box>
                 </Box>
               </Box>
@@ -278,10 +311,13 @@ export function App() {
             isOpen={isOpenLinkModal}
             onEmbed={insertLink}
           />
+          <VideoModal
+            onClose={onCloseVideoModal}
+            isOpen={isOpenVideoModal}
+            onEmbed={insertVideo}
+          />
         </GridItem>
       </Grid>
     </ChakraProvider>
   );
 }
-
-

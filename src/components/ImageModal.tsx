@@ -6,7 +6,7 @@ import { ImageComponent } from "./ImageComponent";
 
 type Props = {
   onClose: () => void;
-  onEmbed: (path: string) => void;
+  onEmbed: (props: { link: string; type: string }) => void;
   isOpen: boolean;
 };
 const ImageModal = (props: Props) => {
@@ -28,7 +28,7 @@ const ImageModal = (props: Props) => {
   return (
     <ModalComponent
       onOk={() => {
-        props.onEmbed(path);
+        props.onEmbed({ link: path, type: "image" });
         setPath("");
       }}
       size="lg"

@@ -5,7 +5,6 @@ import {
     AiOutlineLink,
     AiOutlineOrderedList,
     AiOutlineUnorderedList,
-    AiOutlineDown,
   } from "react-icons/ai";
   
   import { BsFillImageFill, BsBlockquoteLeft } from "react-icons/bs";

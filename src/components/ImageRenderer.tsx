@@ -1,18 +1,23 @@
-// @flow
-import { ContentBlock, ContentState } from "draft-js";
-import * as React from "react";
-import { ImageComponent } from "./ImageComponent";
+import { Image, Box } from "@chakra-ui/react";
+
 type Props = {
-  contentState: ContentState;
-  block: ContentBlock;
-  blockProps: Record<string, any>;
-};
- const ImageRenderer = (props: Props) => {
+ src: string
+}
 
-  const { block, contentState } = props;
-  const data = contentState.getEntity(block.getEntityAt(0)).getData();
+const ImageRenderer = (props: Props) => {
 
-  return <ImageComponent path={data.src} />;
+
+  return (
+    <Box width="100%" height="40vh">
+      <Image
+        objectFit="contain"
+        width="100%"
+        height="40vh"
+        src={props.src}
+        alt="Dan Abramov"
+      />
+    </Box>
+  );
 };
 
 export default ImageRenderer;

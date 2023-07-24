@@ -29,7 +29,7 @@ function useInsertLink(
   
         onCloseLinkModal();
       },
-      [editorState, onCloseLinkModal]
+      [editorState, onCloseLinkModal, setEditorState]
     );
   }
 

@@ -1,20 +1,22 @@
 import { EditorState, AtomicBlockUtils } from "draft-js";
 import { useCallback } from "react";
 
-function useInsertImage(
+function useInsertMedia(
   editorState: EditorState,
   setEditorState: React.Dispatch<React.SetStateAction<EditorState>>,
-  onCloseImageUpload: () => void
+  onCloseModal: () => void
 ) {
   return useCallback(
-    (path: string) => {
+    ({ link, type }: { link: string; type: string }) => {
+
       let contentState = editorState.getCurrentContent();
 
       const contentStateWithEntity = contentState.createEntity(
-        "IMAGE",
+        "atomic",
         "IMMUTABLE",
         {
-          src: path,
+          src: link,
+          type
         }
       );
 
@@ -32,10 +34,10 @@ function useInsertImage(
 
       setEditorState(newEditorState);
 
-      onCloseImageUpload();
+      onCloseModal();
     },
-    [editorState, onCloseImageUpload]
+    [editorState, onCloseModal, setEditorState]
   );
 }
 
-export default useInsertImage;
+export default useInsertMedia;

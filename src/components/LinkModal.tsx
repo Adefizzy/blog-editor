@@ -1,5 +1,5 @@
-import { useRef, useState, FormEvent } from "react";
-import { Box, Text, Center, Input } from "@chakra-ui/react";
+import {  useState } from "react";
+import { Box, Text, Input } from "@chakra-ui/react";
 import ModalComponent from "./Modal";
 
 

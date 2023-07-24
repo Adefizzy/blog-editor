@@ -7,7 +7,6 @@ const URLLink = (props: {
     entityKey: string;
   }) => {
     const { url } = props.contentState.getEntity(props.entityKey).getData();
-    console.log({ url, childen: props.children });
     return <Link href={url} color='teal.500' target="_blank">{props.children}</Link>;
   };
 
