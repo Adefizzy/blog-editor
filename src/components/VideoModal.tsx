@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  Box,
-  Text,
-  Input,
-  Select,
-} from "@chakra-ui/react";
+import { Box, Text, Input, Select } from "@chakra-ui/react";
 import ModalComponent from "./Modal";
 import useNotification from "../utils/useNotifications";
 
@@ -93,7 +88,7 @@ const VideoModal = (props: Props) => {
             onChange={(event) => {
               setVideoProps((props) => ({
                 ...props,
-                link: event.target.value,
+                link: event.target.value?.trim(),
               }));
             }}
           />
